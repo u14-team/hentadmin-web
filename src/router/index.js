@@ -1,0 +1,31 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Auth',
+    component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue')
+  },
+  {
+    path: '/overview',
+    name: 'Overview',
+    component: () => import(/* webpackChunkName: "overview" */ '../views/Overview.vue')
+  },
+  { path: '/dashboard', redirect: '/overview' },
+  {
+    path: '/dashboard/:id',
+    name: 'Dashboard',
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+    children: [
+      { path: '', redirect: 'overview' },
+      { path: 'overview', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Overview.vue') },
+      { path: 'console', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Console.vue') },
+      { path: 'errors', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Errors.vue') }
+    ]
+  }
+]
+
+export default new VueRouter({ routes, mode: 'history' })
