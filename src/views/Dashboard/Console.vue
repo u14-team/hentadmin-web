@@ -148,7 +148,7 @@ export default {
       )
 
       if (this.unwatch) {
-        this.unwatch();
+        this.unwatch()
       }
 
       this.unwatch = this.$store.watch(

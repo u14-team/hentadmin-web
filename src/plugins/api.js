@@ -14,7 +14,7 @@ api.checkServer = async function (address) {
 
     if (data && data.response === 'ok') {
       store.commit({ type: 'saveServer', address })
-      api.ws = io(address, { autoConnect: false, path: '/rtc' })
+      api.ws = io(new URL(address).origin, { autoConnect: false, path: `${new URL(address).pathname}rtc` })
       return true
     }
     return 'Указанный адрес не является сервером HentAdmin.'
@@ -48,8 +48,8 @@ api.execMethod = async function (method, args) {
   }
 }
 
-api.ws = io(store.state.persist.server || window.location.href,
-  { autoConnect: false, path: '/rtc' }
+api.ws = io(new URL(store.state.persist.server || window.location.href).origin,
+  { autoConnect: false, path: `${new URL(store.state.persist.server || window.location.href).pathname}rtc` }
 )
 
 const state = {}
