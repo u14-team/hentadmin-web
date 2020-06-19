@@ -1,5 +1,5 @@
 <template>
-  <v-card height="512px">
+  <v-card>
     <v-progress-circular v-if="loading" indeterminate color="primary" size="20" width="2" class="mr-2"/>
     <v-card-text class="text-center" style="width: auto" v-else-if="type === 'error'">
       <v-row><v-col>Произошла ошибка</v-col></v-row>
