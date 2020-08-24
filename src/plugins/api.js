@@ -52,10 +52,10 @@ api.ws = io(new URL(store.state.persist.server || window.location.href).origin,
   { autoConnect: false, path: `${new URL(store.state.persist.server || window.location.href).pathname}rtc` }
 )
 
-const state = {}
+api.state = {}
 
 api.ws.on('reconnect', function () {
-  Object.entries(state).forEach(([slug, data]) => {
+  Object.entries(api.state).forEach(([slug, data]) => {
     api.ws.emit('state', { slug, data })
   })
 })
@@ -63,13 +63,12 @@ api.ws.on('reconnect', function () {
 api.openWS = function () {
   const { token } = store.state.persist
   api.ws.io.opts.query = { token }
-  console.log(api.ws.io)
   api.ws.open()
 }
 
 api.setRtcState = function (slug, data) {
   api.ws.emit('state', { slug, data })
-  state[slug] = data
+  api.state[slug] = data
 }
 
 api.ws.on('connect_error', console.log)

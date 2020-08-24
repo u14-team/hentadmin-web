@@ -11,7 +11,7 @@ export default {
   components: { Chart },
   props: ['charts'],
 
-  data() {
+  data () {
     return {
       swiperOption: {
         slidesPerView: 4,

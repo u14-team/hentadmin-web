@@ -66,7 +66,7 @@ export default {
   },
   beforeDestroy () {
     this.api.ws.off('status_new', this.updateStatus)
-    this.api.ws.on('info_new', this.updateInfo)
+    this.api.ws.off('info_new', this.updateInfo)
   },
 
   mounted () {

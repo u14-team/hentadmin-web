@@ -14,6 +14,11 @@ const routes = [
     name: 'Overview',
     component: () => import(/* webpackChunkName: "overview" */ '../views/Overview.vue')
   },
+  {
+    path: '/devtools',
+    name: 'DevTools',
+    component: () => import(/* webpackChunkName: "devtools" */ '../views/DevTools.vue')
+  },
   { path: '/dashboard', redirect: '/overview' },
   {
     path: '/dashboard/:id',
@@ -23,7 +28,9 @@ const routes = [
       { path: '', redirect: 'overview' },
       { path: 'overview', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Overview.vue') },
       { path: 'console', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Console.vue') },
-      { path: 'errors', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Errors.vue') }
+      { path: 'errors', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Errors.vue') },
+      { path: 'fs', component: () => import(/* webpackChunkName: "fs" */ '../views/Dashboard/FileManager.vue') },
+      { path: 'fs/:path(.+)', component: () => import(/* webpackChunkName: "fs" */ '../views/Dashboard/FileManager.vue') }
     ]
   }
 ]
