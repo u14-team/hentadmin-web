@@ -1,9 +1,8 @@
 <template>
   <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-y>
     <template v-slot:activator="{ on }">
-      <v-btn text v-on="on">
-        <div class="username body-2" v-text="$store.state.persist.login"/>
-        <v-icon right>mdi-menu-down</v-icon>
+      <v-btn icon v-on="on">
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </template>
 

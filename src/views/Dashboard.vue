@@ -1,32 +1,20 @@
 <template>
-  <v-content>
-    <Notifications/>
-    <v-layout column fill-height style="max-height: 100vh">
-      <v-flex shrink>
-        <v-app-bar color="blue-grey" dark dense>
-          <v-btn icon to="/overview" small class="ml-0">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>HentAdmin</v-toolbar-title>
-          <v-spacer/>
-          <ToolbarMenu/>
-        </v-app-bar>
-      </v-flex>
-
-      <v-flex grow style="max-height: calc(100% - 48px)">
-        <v-layout fill-height>
-          <v-flex shrink class="elevation-3 hidden-sm-and-down"><Sidebar/></v-flex>
-          <!-- <v-flex grow style="flex: 1.5; overflow-y: auto"> -->
-          <v-flex grow style="flex: 1.5; overflow-y: auto">
-            <router-view v-if="loaded"/>
-            <div v-else class="preloader">
-              <v-progress-circular indeterminate size="48" color="primary"/>
-            </div>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-  </v-content>
+<v-content>
+  <Notifications/>
+  <v-layout column fill-height style="max-height: 100vh">
+    <v-flex grow style="max-height: 100%">
+      <v-layout fill-height>
+        <v-flex shrink class="hidden-sm-and-down"><Sidebar/></v-flex>
+        <v-flex grow style="flex: 1.5; overflow-y: auto" class="elevation-21">
+          <router-view v-if="loaded"/>
+          <div v-else class="preloader">
+            <v-progress-circular indeterminate size="48" color="primary"/>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-flex>
+  </v-layout>
+</v-content>
 </template>
 
 <style scoped>
@@ -40,11 +28,10 @@
 
 <script>
 import Notifications from '@/components/Common/Notifications.vue'
-import ToolbarMenu from '@/components/Common/ToolbarMenu.vue'
 import Sidebar from '@/components/Dashboard/Sidebar.vue'
 
 export default {
-  components: { Notifications, ToolbarMenu, Sidebar },
+  components: { Notifications, Sidebar },
 
   data: () => ({ loaded: false }),
 

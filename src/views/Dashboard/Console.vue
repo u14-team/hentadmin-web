@@ -1,121 +1,62 @@
 <template>
-  <v-content fill-height style="height: 100%" class="pa-3">
-    <v-sheet dark color="gray darken-4 console">
-      <div class="consoleContent">
-        <div class="consoleLine" v-for="(line, i) in lines" :key="i">
-          <span
-            v-for="({ css, text }, i) in parseLine(line)"
-            :style="css"
-            v-text="text"
-            :key="i"
-          />
-        </div>
+<div>
+  <AppBar>Консоль</AppBar>
+  <v-sheet color="gray darken-4 console">
+    <div class="consoleLines">
+      <div class="consoleLine" v-for="(line, i) in lines" :key="i">
+        <span
+          v-for="({ css, text }, i) in parseLine(line)"
+          :style="css"
+          v-text="text"
+          :key="i"
+        />
       </div>
-      <div class="consoleLine promptWrapper">
-        <b>cmd:&nbsp;</b>
-        <input class="consolePrompt" v-model="command" @keyup="send"/>
-      </div>
-    </v-sheet>
-    <div class="consoleStatus body-2">
-      <span v-if="status === 'fetching'">
-        <v-progress-circular indeterminate color="primary" size="20" width="2" class="mr-2"/>
-        Загрузка журнала...
-      </span>
-      <span v-if="status === 'subscribing'">
-        <v-progress-circular indeterminate color="primary" size="20" width="2" class="mr-2"/>
-        Включение автообновления журнала...
-      </span>
-      <span v-if="status === 'unavailable'">
-        <v-progress-circular indeterminate color="primary" size="20" width="2" class="mr-2"/>
-        Ожидание доступности консоли...
-      </span>
     </div>
-  </v-content>
+  </v-sheet>
+  <v-text-field
+    @keyup="sendButton"
+    @click:append="send"
+    placeholder="Введите команду..."
+    style="border-radius: 0px; height: 40px"
+    append-icon="mdi-send"
+    v-model="command"
+    solo
+    hide-details
+    dense
+    autofocus
+    flat
+  >
+  </v-text-field>
+</div>
 </template>
 
 <style scoped>
-.console {
-  width: 100%;
-  height: calc(100% - 32px);
-  max-width: 100%;
-  max-height: calc(100% - 32px);
-  align-self: start;
-  padding: 8px;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-}
+  .console {
+    height: calc(100vh - 48px - 40px);
+    overflow-y: scroll;
+    padding: 10px;
+  }
 
-/* Just because Firefox is a pile of shit */
-/* God bless Chromium */
-.consoleContent {
-  display: flex;
-  flex-direction: column-reverse;
-}
+  .consoleLines {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 
-.console::-webkit-scrollbar {
-  width: 8px;
-}
-
-.console::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.console::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0);
-  border-radius: 10px;
-  margin-right: 2px;
-  transition: background 0.2s;
-}
-
-.console:hover::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.console::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.consoleStatus {
-  width: 100%;
-  margin-top: 8px;
-  height: 28px;
-  padding: 0 10px
-}
-
-.consoleStatus, .consoleStatus > * {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.consoleLine {
-  font-family: 'Fira Code', monospace;
-  font-size: 12px;
-  max-width: 100%;
-  width: 100%;
-  word-wrap: break-word;
-}
-
-.consolePrompt:focus {
-  outline: none
-}
-
-.consolePrompt {
-  flex: 2;
-  margin-left: 12px
-}
-
-.promptWrapper {
-  display: flex;
-  padding-top: 12px;
-}
+  .consoleLine {
+    font-family: Fira Code, monospace;
+    font-size: 12px;
+    max-width: 100%;
+    width: 100%;
+    word-wrap: break-word;
+  }
 </style>
 
 <script>
+import AppBar from '@/components/Dashboard/AppBar.vue'
 import { parse } from 'ansicolor'
 
 export default {
+  components: { AppBar },
   data: () => ({
     lines: [],
     command: '',
@@ -128,9 +69,12 @@ export default {
       const parsed = parse(line).spans || []
       return parsed.map(({ css, text }) => ({ css, text }))
     },
-    send (event) {
+    sendButton (event) {
       if (event.keyCode !== 13) return
       event.preventDefault()
+      this.send()
+    },
+    send () {
       const { id } = this.$store.state.dashboard.selectedBot
       this.api.execMethod('bots.command', { id, command: this.command })
       this.command = ''

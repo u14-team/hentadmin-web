@@ -9,6 +9,7 @@ import i18n from './plugins/i18n'
 import './plugins/api'
 import { setInteractionMode } from 'vee-validate'
 import infiniteScroll from 'vue-infinite-scroll'
+import './registerServiceWorker'
 
 setInteractionMode('eager')
 Vue.use(infiniteScroll)

@@ -5,6 +5,7 @@
     :items-per-page="perPage"
     sort-by="name"
     dense
+    height="100%"
   >
     <template v-slot:[`item.name`]="{ item }">
       <router-link

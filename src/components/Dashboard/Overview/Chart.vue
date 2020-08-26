@@ -1,36 +1,31 @@
 <template>
-  <v-card>
-    <v-progress-circular v-if="loading" indeterminate color="primary" size="20" width="2" class="mr-2"/>
+  <v-card style="overflow: hidden">
+    <div v-if="loading" class="text-center">
+      <v-progress-circular indeterminate color="primary"/>
+    </div>
     <v-card-text class="text-center" style="width: auto" v-else-if="type === 'error'">
       <v-row><v-col>Произошла ошибка</v-col></v-row>
     </v-card-text>
-    <apexchart v-else-if="type !== 'number'" width="100%" height="100%" :type="type" :options="options" :series="series"></apexchart>
+    <LineChart :styles="{ height: '512px' }" v-else-if="type !== 'number'" :data="data"></LineChart>
     <v-card-text class="text-center" style="width: auto" v-else>
-      <v-row><v-col class="display-3">{{series[0].data}}</v-col></v-row>
-      <v-row><v-col >{{series[0].name}}</v-col></v-row>
+      <v-row><v-col class="display-3">{{data.series[0].data}}</v-col></v-row>
+      <v-row><v-col >{{data.series[0].name}}</v-col></v-row>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import LineChart from './Charts/Line.vue'
+
 export default {
+  components: { LineChart },
   props: ['slug'],
   data () {
     return {
       loading: true,
-      type: null,
-      options: {
-        xaxis: {
-          categories: null
-        },
-        stroke: {
-          curve: 'smooth'
-        }
-      },
-      series: null
+      type: null
     }
   },
-
   async mounted () {
     const { id } = this.$store.state.dashboard.selectedBot
     const { response, error } = await this.api.execMethod('stats.get', { id, slug: this.slug })
@@ -38,10 +33,8 @@ export default {
       this.type = 'error'
       this.loading = false
     }
-
     this.type = response.chartType
-    this.options.xaxis.categories = response.legend
-    this.series = response.series
+    this.data = response
     this.loading = false
   }
 }

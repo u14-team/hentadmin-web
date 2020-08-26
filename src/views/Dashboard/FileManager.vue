@@ -1,20 +1,21 @@
 <template>
-  <v-container style="height: 100%;">
-    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
-    <FileList v-if="type === 'directory'" :files="files"></FileList>
+  <div style="height: 100%;">
+    <AppBar><v-breadcrumbs :items="breadcrumbs"/></AppBar>
+    <FileList v-if="type === 'directory'" :files="files"/>
     <File v-else-if="type === 'file'" :content="content" :edited="edited"></File>
     <div v-else class="text-center">
       <v-progress-circular indeterminate color="primary" ></v-progress-circular>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script>
 import FileList from '@/components/Dashboard/FileManager/FileList.vue'
 import File from '@/components/Dashboard/FileManager/File.vue'
+import AppBar from '@/components/Dashboard/AppBar.vue'
 
 export default {
-  components: { FileList, File },
+  components: { FileList, File, AppBar },
   data: () => ({
     type: '',
     files: [],

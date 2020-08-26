@@ -29,6 +29,7 @@ const routes = [
       { path: 'overview', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Overview.vue') },
       { path: 'console', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Console.vue') },
       { path: 'errors', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Errors.vue') },
+      { path: 'plugins', component: () => import(/* webpackChunkName: "plugins" */ '../views/Dashboard/Plugins.vue') },
       { path: 'fs', component: () => import(/* webpackChunkName: "fs" */ '../views/Dashboard/FileManager.vue') },
       { path: 'fs/:path(.+)', component: () => import(/* webpackChunkName: "fs" */ '../views/Dashboard/FileManager.vue') }
     ]
