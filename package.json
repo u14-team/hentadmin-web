@@ -21,7 +21,7 @@
   "build": {
     "appId": "com.u14.hentadmin-web"
   },
-  "main": "background.js",
+  "main": "./dist/electron/background.js",
   "dependencies": {
     "ansicolor": "^1.1.93",
     "apexcharts": "^3.19.2",
