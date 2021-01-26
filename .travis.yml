@@ -7,10 +7,13 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+        - TRAVIS_COMMIT_MESSAGE=no
 
     - os: linux
       services: docker
       language: generic
+      env:
+        - TRAVIS_COMMIT_MESSAGE=no
 
 cache:
   directories:
