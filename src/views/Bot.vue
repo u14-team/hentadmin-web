@@ -28,7 +28,7 @@
 
 <script>
 import Notifications from '@/components/Common/Notifications.vue'
-import Sidebar from '@/components/Dashboard/Sidebar.vue'
+import Sidebar from '@/components/Bot/Sidebar.vue'
 
 export default {
   components: { Notifications, Sidebar },

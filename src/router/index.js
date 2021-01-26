@@ -19,20 +19,25 @@ const routes = [
     name: 'DevTools',
     component: () => import(/* webpackChunkName: "devtools" */ '../views/DevTools.vue')
   },
-  { path: '/dashboard', redirect: '/overview' },
+  { path: '/bot', redirect: '/overview' },
   {
-    path: '/dashboard/:id',
-    name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+    path: '/bot/:id',
+    name: 'Bot',
+    component: () => import(/* webpackChunkName: "bot" */ '../views/Bot.vue'),
     children: [
       { path: '', redirect: 'overview' },
-      { path: 'overview', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Overview.vue') },
-      { path: 'console', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Console.vue') },
-      { path: 'errors', component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard/Errors.vue') },
-      { path: 'plugins', component: () => import(/* webpackChunkName: "plugins" */ '../views/Dashboard/Plugins.vue') },
-      { path: 'fs', component: () => import(/* webpackChunkName: "fs" */ '../views/Dashboard/FileManager.vue') },
-      { path: 'fs/:path(.+)', component: () => import(/* webpackChunkName: "fs" */ '../views/Dashboard/FileManager.vue') }
+      { path: 'overview', component: () => import(/* webpackChunkName: "bot" */ '../views/Bot/Overview.vue') },
+      { path: 'console', component: () => import(/* webpackChunkName: "bot" */ '../views/Bot/Console.vue') },
+      { path: 'errors', component: () => import(/* webpackChunkName: "bot" */ '../views/Bot/Errors.vue') },
+      { path: 'plugins', component: () => import(/* webpackChunkName: "bot" */ '../views/Bot/Plugins.vue') },
+      { path: 'fs', component: () => import(/* webpackChunkName: "bot" */ '../views/Bot/FileManager.vue') },
+      { path: 'fs/:path(.+)', component: () => import(/* webpackChunkName: "bot" */ '../views/Bot/FileManager.vue') }
     ]
+  },
+  {
+    path: '*',
+    name: '404',
+    component: () => import(/* webpackChunkName: "404" */ '../views/Error/404.vue')
   }
 ]
 

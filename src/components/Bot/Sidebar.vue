@@ -1,9 +1,9 @@
 <template>
-<v-navigation-drawer :src="bg" class="lime">
+<v-navigation-drawer :src="bg" class="lime" permanent>
   <div class="sidebar-plane" :style="`background: rgba(${$vuetify.theme.dark ? '0, 0, 0' : '255, 255, 255'}, 0.5)`"></div>
   <v-list dense nav>
     <v-list-item v-if="bot" two-line link target="_blank" :href="`https://vk.com/club${bot.info.groupId}`">
-      <v-list-item-avatar><img :src="bot.info.photos[1]"></v-list-item-avatar>
+      <v-list-item-avatar v-if="!bot.info.unknown"><img :src="bot.info.photos[1]"></v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title v-text="bot.info.name"/>
         <v-list-item-subtitle v-t="`botStatuses.${bot.status}`"/>
@@ -73,7 +73,10 @@ export default {
     },
     rootPath () {
       const { id } = this.$route.params
-      return `/dashboard/${id}`
+      return `/bot/${id}`
+    },
+    drawer () {
+      return true
     }
   },
 
