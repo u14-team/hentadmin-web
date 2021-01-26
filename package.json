@@ -21,6 +21,7 @@
   "build": {
     "appId": "com.u14.hentadmin-web"
   },
+  "type": "module",
   "main": "src/background.js",
   "dependencies": {
     "ansicolor": "^1.1.93",
