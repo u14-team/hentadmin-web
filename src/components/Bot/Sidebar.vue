@@ -12,7 +12,7 @@
         <v-progress-circular v-if="blockCtl" indeterminate size="24" color="grey"/>
         <v-menu v-else open-on-hover offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on"><v-icon color="grey lighten-1">mdi-dots-vertical</v-icon></v-btn>
+            <v-btn icon v-on="on" v-on:click.prevent><v-icon color="grey lighten-1">mdi-dots-vertical</v-icon></v-btn>
           </template>
           <v-card>
             <v-btn icon v-if="bot.status === 'enabled'" @click="() => stateCtl('reload')">
