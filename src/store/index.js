@@ -42,22 +42,23 @@ export default new Vuex.Store({
     updateTheme (state, { isDark }) {
       state.persist.dark = isDark
     },
-    logout (state, { saveToken } = { saveToken: true }) {
-      let { server, token } = state.persist
-
-      if (!saveToken) token = undefined
+    logout (state) {
+      state.persist.server = null
+      state.persist.login = null
+      state.persist.token = null
+    },
+    pushHistory (state, { server, token, login }) {
+      if (state.persist.serverHistory.find(v => v.token === token)) {
+        return
+      }
 
       state.persist.serverHistory.push(
-        { server, token }
+        { server, token, login }
       )
 
       if (state.persist.serverHistory.length > 3) {
         state.persist.serverHistory.shift()
       }
-
-      state.persist.server = null
-      state.persist.login = null
-      state.persist.token = null
     },
     clearHistory (state) {
       state.persist.serverHistory = []

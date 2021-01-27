@@ -4,7 +4,7 @@
   <div v-if="loading" class="text-center">
     <v-progress-circular indeterminate color="primary"/>
   </div>
-  <div v-else v-for="part in parts" :key="part">
+  <div v-else v-for="part in parts" :key="part.id">
     <Carousel v-if="typeof part === 'object'" :charts="part"/>
     <Chart style="height: 512px" v-else :slug="part"/>
     <br>

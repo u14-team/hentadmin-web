@@ -1,4 +1,5 @@
 <template>
+<transition :name="transitionName">
 <v-content>
   <Notifications/>
   <v-layout column fill-height style="max-height: 100vh">
@@ -6,7 +7,7 @@
       <v-layout fill-height>
         <v-flex shrink class="hidden-sm-and-down"><Sidebar/></v-flex>
         <v-flex grow style="flex: 1.5; overflow-y: auto" class="elevation-21">
-          <router-view v-if="loaded"/>
+          <transition name="fade" v-if="loaded"><router-view/></transition>
           <div v-else class="preloader">
             <v-progress-circular indeterminate size="48" color="primary"/>
           </div>
@@ -15,6 +16,7 @@
     </v-flex>
   </v-layout>
 </v-content>
+</transition>
 </template>
 
 <style scoped>
@@ -33,7 +35,7 @@ import Sidebar from '@/components/Bot/Sidebar.vue'
 export default {
   components: { Notifications, Sidebar },
 
-  data: () => ({ loaded: false }),
+  data: () => ({ loaded: false, transitionName: 'slide-in' }),
 
   async beforeMount () {
     const { id } = this.$route.params
@@ -64,6 +66,13 @@ export default {
   beforeDestroy () {
     this.api.ws.off('status_new', this.updateStatus)
     this.api.ws.on('info_new', this.updateInfo)
+  },
+  watch: {
+    $route (to, from) {
+      const toDepth = to.path.split('/').length
+      const fromDepth = from.path.split('/').length
+      this.transitionName = toDepth < fromDepth ? 'slide-in' : 'slide-out'
+    }
   }
 }
 </script>

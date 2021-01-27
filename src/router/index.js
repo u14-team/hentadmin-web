@@ -9,6 +9,10 @@ const routes = [
     redirect: '/auth'
   },
   {
+    path: '/',
+    redirect: '/auth'
+  },
+  {
     path: '/auth',
     name: 'Auth',
     component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue')

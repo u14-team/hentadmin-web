@@ -68,6 +68,10 @@ export default {
 
   computed: {
     server () {
+      if (!this.$store.state.persist.server) {
+        return ''
+      }
+
       const url = new URL(this.$store.state.persist.server)
       return url.host
     }

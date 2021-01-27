@@ -90,8 +90,11 @@ export default {
         return this.$refs.form.setErrors({ Password: [error.message] })
       }
 
+      console.log(token, login, this.api.getServer())
+
       this.$store.commit({ type: 'auth', token })
       this.$store.commit({ type: 'updateLogin', login })
+      this.$store.commit({ type: 'pushHistory', server: this.api.getServer(), login, token })
 
       this.api.openWS()
       return this.$router.push('/overview')

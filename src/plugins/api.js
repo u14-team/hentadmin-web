@@ -23,8 +23,20 @@ api.checkServer = async function (address) {
   }
 }
 
+api.logout = function () {
+  store.commit('logout', { saveToken: false })
+  router.push('/auth')
+}
+
+api.getServer = function () {
+  return store.state.persist.server
+}
+
 api.execMethod = async function (method, args) {
   const { server, token } = store.state.persist
+  if (!server || (!token && method !== 'auth')) {
+    api.logout()
+  }
 
   try {
     const { data } = await axios.get(server, {
@@ -36,14 +48,14 @@ api.execMethod = async function (method, args) {
       switch (data.error.slug) {
         case 'invalid_token_ip':
         case 'invalid_token':
-          store.commit('logout', { saveToken: false })
-          router.push('/')
+          api.logout()
           break
       }
     }
 
     return data
   } catch (e) {
+    console.error('[HA API ERROR]', e)
     // TODO global api error catching
   }
 }

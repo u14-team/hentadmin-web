@@ -36,23 +36,22 @@ export default {
 
   beforeMount () {
     this.auths = this.$store.state.persist.serverHistory.map(
-      ({ server, token }, i) => {
-        if (token) this.updateInfo(server, token, i)
-        return { server, token, updating: !!token }
+      ({ server, token, login }, i) => {
+        if (token) this.updateInfo(server, token, login, i)
+        return { server, token, login, updating: !!token }
       }
     )
   },
 
   methods: {
-    async updateInfo (server, token, i) {
-      console.log(this.auths)
-      const { data: { error, response: { status, login } } } = await axios.get(server, {
+    async updateInfo (server, token, login, i) {
+      const { data: { error, response } } = await axios.get(server, {
         params: { method: 'auth.check', token },
         responseType: 'json'
       })
 
-      if (error || status !== 'valid') this.auths[i].token = undefined
-      this.auths[i].login = login
+      if (error || response.status !== 'valid') this.auths[i].token = undefined
+      this.auths[i].login = response ? response.login : `${login} (Offline)`
       this.auths[i].updating = false
     },
 
