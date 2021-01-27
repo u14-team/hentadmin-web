@@ -2,7 +2,7 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-  publicPath: process.env.NODE_ENV === 'production'
+  publicPath: process.env.GH_PAGES === '1'
     ? '/hentadmin-web/'
     : '/'
 }

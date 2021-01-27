@@ -5,7 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/index.html',
+    redirect: '/auth'
+  },
+  {
+    path: '/auth',
     name: 'Auth',
     component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue')
   },
@@ -41,4 +45,4 @@ const routes = [
   }
 ]
 
-export default new VueRouter({ routes, mode: 'history', base: '/hentadmin-web/' })
+export default new VueRouter({ routes, mode: 'history', base: '/' })
