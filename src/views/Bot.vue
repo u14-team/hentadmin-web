@@ -1,5 +1,4 @@
 <template>
-<transition :name="transitionName">
 <v-content>
   <Notifications/>
   <v-layout column fill-height style="max-height: 100vh">
@@ -7,7 +6,7 @@
       <v-layout fill-height>
         <v-flex shrink class="hidden-sm-and-down"><Sidebar/></v-flex>
         <v-flex grow style="flex: 1.5; overflow-y: auto" class="elevation-21">
-          <transition name="fade" v-if="loaded"><router-view/></transition>
+          <transition name="fade" mode="out-in" v-if="loaded"><router-view/></transition>
           <div v-else class="preloader">
             <v-progress-circular indeterminate size="48" color="primary"/>
           </div>
@@ -16,7 +15,6 @@
     </v-flex>
   </v-layout>
 </v-content>
-</transition>
 </template>
 
 <style scoped>
@@ -35,10 +33,15 @@ import Sidebar from '@/components/Bot/Sidebar.vue'
 export default {
   components: { Notifications, Sidebar },
 
-  data: () => ({ loaded: false, transitionName: 'slide-in' }),
+  data: () => ({ loaded: false }),
 
   async beforeMount () {
     const { id } = this.$route.params
+
+    if (this.$store.state.dashboard.selectedBot && id !== this.$store.state.dashboard.selectedBot.id) {
+      this.$store.state.dashboard.selectedBot = null
+      this.loaded = false
+    }
 
     const { response: bot } = await this.api.execMethod('bots.get', { id })
     this.$store.commit({ type: 'selectBot', bot })
@@ -47,7 +50,6 @@ export default {
 
   methods: {
     updateStatus ({ id: updatedId, status }) {
-      console.log('status_new')
       const { id } = this.$route.params
       if (Number(id) !== updatedId) return
       this.$store.commit({ type: 'updateSelectedBot', status })
@@ -64,15 +66,10 @@ export default {
     this.api.ws.on('info_new', this.updateInfo)
   },
   beforeDestroy () {
+    console.log('adsad')
+    this.loaded = false
     this.api.ws.off('status_new', this.updateStatus)
     this.api.ws.on('info_new', this.updateInfo)
-  },
-  watch: {
-    $route (to, from) {
-      const toDepth = to.path.split('/').length
-      const fromDepth = from.path.split('/').length
-      this.transitionName = toDepth < fromDepth ? 'slide-in' : 'slide-out'
-    }
   }
 }
 </script>

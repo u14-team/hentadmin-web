@@ -1,4 +1,5 @@
 <template>
+<transition appear name="slide-fade-enter">
   <v-col cols="12" sm="6" md="4" lg="4" xl="3">
     <v-card class="elevation-3 botCard" :to="`/bot/${value.id}`">
       <v-list-item two-line>
@@ -55,6 +56,7 @@
       </v-list-item>
     </v-card>
   </v-col>
+</transition>
 </template>
 
 <style>
